@@ -47,41 +47,18 @@ const getUser = async (email: string) => {
     throw new ApiError(httpStatus.NOT_FOUND, "User does not exist");
   }
 };
-
-import { Schema, Types } from "mongoose";
-
-const wishlistBook = async (userEmail: string, bookId: string) => {
-  // Find the user by their ID
-  const user = await User.findOne({ email: userEmail });
-
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+const getAllUser = async () => {
+  try {
+    const result = await User.find({});
+    return result;
+  } catch (error) {
+    console.log(error);
   }
-
-  // Check if the book already exists in the user's wishlist
-  if (user.wishlist && user.wishlist.includes(bookId)) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      "Book already exists in wishlist"
-    );
-  }
-
-  // Add the book ID to the user's wishlist array
-  if (user.wishlist) {
-    user.wishlist.push(bookId);
-  } else {
-    user.wishlist = [bookId];
-  }
-
-  // Save the updated user with the new book added to the wishlist
-  await user.save();
-
-  return user;
 };
 
 export const userService = {
   createUser,
   loginUser,
   getUser,
-  wishlistBook,
+  getAllUser
 };
