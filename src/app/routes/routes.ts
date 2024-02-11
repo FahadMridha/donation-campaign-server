@@ -11,7 +11,7 @@ const moduleRoutes = [
     route: userRoutes,
   },
   {
-    path: "/donations",
+    path: "/donation",
     route: donationRoutes,
   },
 ];
